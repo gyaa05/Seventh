@@ -1,35 +1,36 @@
 package ru.vsu.cs.vvp2022.task7;
 
+import java.io.*;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        int[] mass = readArray("mass");
+        int[] mass = readArrayFromFile();
         System.out.println();
     }
 
-    public static int[] readArray(String massiveName) {
-        Scanner scanner = new Scanner(System.in);
-
-        int arrLen = readArrLen(massiveName);
-
-        int[] massive = new int[arrLen];
-
-        for (int i = 0; i < arrLen; i++) {
-            System.out.printf("Введите %s элемент массива ", i + 1);
-
-            massive[i] = scanner.nextInt();
+    public static int[] readArrayFromFile() {
+        try {
+            Scanner scanner = new Scanner(new File("input.txt"));
+            int[] massive = new int[getLineCountByReader("input.txt")];
+            int i = 0;
+            while (scanner.hasNextInt()) {
+                massive[i] = scanner.nextInt();
+                i++;
+            }
+            return massive;
+        } catch (IOException e) {
+            int[] massive = new int[0];
+            return massive;
         }
-        return massive;
     }
 
-    public static int readArrLen(String massiveName) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.printf("Введите длину массива %s ", massiveName);
-        int len = scanner.nextInt();
-
-        return len;
+    public static int getLineCountByReader(String fileName) {
+        try (var lnr = new LineNumberReader(new BufferedReader(new FileReader(fileName)))) {
+            while (lnr.readLine() != null) ;
+            return lnr.getLineNumber();
+        } catch (IOException e){
+            return 0;
+        }
     }
-
 }

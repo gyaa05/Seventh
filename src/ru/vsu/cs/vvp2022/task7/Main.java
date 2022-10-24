@@ -5,14 +5,14 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        int[] mass = readArrayFromFile();
+        int[] mass = readArrayFromFile(args[0]);
         System.out.println();
     }
 
-    public static int[] readArrayFromFile() {
+    public static int[] readArrayFromFile(String fileName) {
         try {
-            Scanner scanner = new Scanner(new File("input.txt"));
-            int[] massive = new int[getLineCountByReader("input.txt")];
+            Scanner scanner = new Scanner(new File(fileName));
+            int[] massive = new int[getLineCountByReader(fileName)];
             int i = 0;
             while (scanner.hasNextInt()) {
                 massive[i] = scanner.nextInt();
